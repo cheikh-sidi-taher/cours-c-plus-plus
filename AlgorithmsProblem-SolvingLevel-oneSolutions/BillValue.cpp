@@ -12,8 +12,6 @@ float ReadPositiveNumber(string message){
 }
 
 
-
-
 float CalculateServiceTax(float TotalBill){
     TotalBill = TotalBill * 1.1;
     TotalBill = TotalBill * 1.16;
