@@ -1,10 +1,6 @@
 #include <iostream>
 using namespace std;
 
-
-
-
-
 int ReadPositiveNumber(string Message)
 {
     int Number = 0;
