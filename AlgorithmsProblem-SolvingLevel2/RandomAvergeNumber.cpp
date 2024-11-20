@@ -1,8 +1,6 @@
 #include <iostream>
 using namespace std;
 
-#include <iostream>
-using namespace std;
 int RandomNumber(int From, int To)
 {
     // Function to generate a random number
@@ -32,6 +30,7 @@ int SumArray(int arr[100], int arrLength)
     }
     return sum;
 }
+
 
 float ArrayAverage(int arr[100], int arrLength)
 {
