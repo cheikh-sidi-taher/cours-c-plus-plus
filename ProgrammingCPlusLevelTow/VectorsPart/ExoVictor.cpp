@@ -1,33 +1,36 @@
 #include <vector>
 #include <iostream>
 using namespace std;
-void ReadNumbers(vector<int> &vNumbers)
-{
-    char ReadMore = 'Y';
-    int Number;
-    while (ReadMore == 'Y' || ReadMore == 'y')
+
+
+void ReadNamesPlayers(vector<string> &names)
+{   char MoreNames = 'Y';
+    string name;
+
+    while (MoreNames == 'Y' || MoreNames == 'y')
     {
-        cout << "Please enter a number? ";
-        cin >> Number;
-        vNumbers.push_back(Number);
-        cout << "\nDo you want to read more numbers? Y/N ?";
-        cin >> ReadMore;
+        cout << "Please enter player name? ";
+        cin >> name;
+        names.push_back(name);
+        cout << "\nDo you want to read more names? Y/N ?";
+        cin >> MoreNames;
+    }
+    
+
+}
+
+void PrintNamesPlayers(vector<string> names)
+{
+    for (string name : names){
+        cout << name << endl;
     }
 }
-void PrintVectorNumbers(vector<int> &vNumbers)
-{
-    cout << "Numbers Vector: \n\n";
-    // ranged loop
-    for (int Number : vNumbers)
-    {
-        cout << Number << endl;
-    }
-    cout << endl;
-}
+
+
 int main()
 {
-    vector<int> vNumbers;
-    ReadNumbers(vNumbers);
-    PrintVectorNumbers(vNumbers);
+    vector<string> names;
+    ReadNamesPlayers(names);
+    PrintNamesPlayers(names);
     return 0;
 }

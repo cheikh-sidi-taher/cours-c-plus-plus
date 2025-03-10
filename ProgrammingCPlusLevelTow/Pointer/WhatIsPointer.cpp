@@ -2,12 +2,12 @@
 using namespace std;
 int main()
 {
-    int a = 10;
-    cout << "a value = " << a << endl;
-    cout << "a address = " << &a << endl;
-    int *p;
-    p = &a;
-    cout << "Pointer Value = " << p;
-    cout << endl;
-    return 0;
+   int arr[4] = {10, 20, 30, 40};
+   int *ptr;
+   for(int i = 0; i < 4; i++)
+   {
+       ptr = &arr[i];
+       cout << *ptr << " ";
+   }
+   cout << "\n";
 }

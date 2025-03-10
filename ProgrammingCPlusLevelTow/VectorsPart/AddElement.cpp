@@ -3,18 +3,16 @@
 using namespace std;
 int main()
 {
-    vector<int> vNumbers;
-    vNumbers.push_back(10);
-    vNumbers.push_back(20);
-    vNumbers.push_back(30);
-    vNumbers.push_back(40);
-    vNumbers.push_back(50);
-    cout << "Numbers Vector: \n\n";
-    // ranged loop
-    for (int &Number : vNumbers)
+    vector <string> vPlayesrNames;
+    vPlayesrNames.push_back("John");
+    vPlayesrNames.push_back("Mark");
+    vPlayesrNames.pop_back("Jill");
+    
+
+
+    for (string &PlayerName : vPlayesrNames)
     {
-        cout << Number << endl;
+        cout << PlayerName << endl;
     }
-    cout << endl;
     return 0;
 }

@@ -30,32 +30,43 @@ void PrintMatrix(int arr[3][3], short Rows, short Cols)
     }
 }
 
-int RowSum(int arr[3][3], short RowNumber, short Cols)
+int ColSum(int arr[3][3], short Rows, short ColNumber)
 {
     int Sum = 0;
-    for (short j = 0; j <= Cols - 1; j++)
+    for (short i = 0; i <= Rows - 1; i++)
     {
-        Sum += arr[RowNumber][j];
+        Sum += arr[i][ColNumber];
     }
     return Sum;
 }
-
-void PrintEachRowSum(int arr[3][3], short Rows, short Cols)
+void SumMatixColsInArry(int arr[3][3], int arrSum[3], short Rows,
+                        short Cols)
 {
-    cout << "The the following are the sum of each row in the matrix:\n";
-        for (short i = 0; i < Rows; i++)
+    for (short i = 0; i < Cols; i++)
     {
-        cout << " Row " << i + 1 << " Sum = " << RowSum(arr, i, Cols) << endl;
+        arrSum[i] = ColSum(arr, Rows, i);
     }
 }
+void PrintColsSumArray(int arr[3], short length)
+{
+    cout << "\nThe the following are the sum of each col in the
+        matrix :\n ";
+        for (short i = 0; i < length; i++)
+    {
+        cout << " Col " << i + 1 << " Sum = " << arr[i] << endl;
+    }
+}
+
 int main()
 {
     // Seeds the random number generator in C++, called only once
     srand((unsigned)time(NULL));
     int arr[3][3];
+    int arrSum[3];
     FillMatrixWithRandomNumbers(arr, 3, 3);
     cout << "\nThe following is a 3x3 random matrix:\n";
     PrintMatrix(arr, 3, 3);
-    PrintEachRowSum(arr, 3, 3);
+    SumMatixColsInArry(arr, arrSum, 3, 3);
+    PrintColsSumArray(arrSum, 3);
     system("pause>0");
 }
