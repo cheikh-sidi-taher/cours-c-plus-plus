@@ -8,11 +8,10 @@ string ReadString()
     getline(cin, S1);
     return S1;
 }
-
-int CountWordInString(string S1)
-{   int count = 0;
+short CountWords(string S1)
+{
     string delim = " "; // delimiter
-    cout << "\nYour string wrords are: \n\n";
+    short Counter = 0;
     short pos = 0;
     string sWord; // define a string variable
     // use find() function to get the position of the delimiters
@@ -21,22 +20,22 @@ int CountWordInString(string S1)
         sWord = S1.substr(0, pos); // store the word
         if (sWord != "")
         {
-           count++;
+            Counter++;
         }
-        S1.erase(0, pos + delim.length()); /* erase() until
-        positon and move to next word. */
+        // erase() until positon and move to next word.
+        S1.erase(0, pos + delim.length());
     }
-    if(S1 != ""){
-        count++;
+    if (S1 != "")
+    {
+        Counter++; // it counts the last word of the string.
     }
-    return count;
+    return Counter;
 }
-
 
 int main()
 {
-
-CountWordInString(ReadString());
-
-system("pause>0");
+    string S1 = ReadString();
+    cout << "\nThe number of words in your string is: ";
+    cout << CountWords(S1);
+    system("pause>0");
 }
