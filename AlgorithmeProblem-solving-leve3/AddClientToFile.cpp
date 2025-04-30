@@ -11,7 +11,7 @@ struct sClient
     string PinCode;
     string Name;
     string Phone;
-    double AccountBalance;
+    double AccountBalance; 
 };
 sClient ReadNewClient()
 {
