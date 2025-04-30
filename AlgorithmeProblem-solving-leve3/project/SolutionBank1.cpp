@@ -37,7 +37,7 @@ struct sClient
 //         MyFile.close();
 //     }
 // }
-
+void ChoiceCaseMenuScreen(vector<sClient> &Clients);
 void TitleSreens(string title)
 {
 
@@ -48,11 +48,29 @@ void TitleSreens(string title)
 
 
 
-sClient ReadClient()
+sClient ReadClient(const vector<sClient>& clients)
 {
     sClient Client;
-    cout << "Enter Account Number? ";
-    getline(cin >> ws, Client.AccountNumber);
+    bool AccountExists;
+    
+    do {
+        AccountExists = false;
+        
+        cout << "Enter Account Number? ";
+        getline(cin >> ws, Client.AccountNumber);
+
+        // Vérifier si le compte existe déjà
+        for (const auto& c : clients)
+        {
+            if (c.AccountNumber == Client.AccountNumber)
+            {
+                AccountExists = true;
+                cout << "Account Number already exists. Please enter a different Account Number.\n";
+                break;
+            }
+        }
+    } while (AccountExists);
+
     cout << "Enter PinCode? ";
     getline(cin, Client.PinCode);
     cout << "Enter Name? ";
@@ -61,6 +79,7 @@ sClient ReadClient()
     getline(cin, Client.Phone);
     cout << "Enter AccountBalance? ";
     cin >> Client.AccountBalance;
+    
     return Client;
 }
 
@@ -77,9 +96,12 @@ string ReadAccountNumber()
 void AddNewClient(vector<sClient> &Clients)
 {
     sClient Client;
-    Client = ReadClient();
+    Client = ReadClient(Clients);
     Clients.push_back(Client);
-}
+    
+    }
+   
+
 
 void PrintClientRecord(sClient Client)
 {
@@ -102,6 +124,8 @@ void addMoreClients(vector<sClient> &Clients){
         cin >> AddMore;
         cin.ignore(); // Clear the input buffer
     } while (toupper(AddMore) == 'Y');
+
+
 }
 
 
@@ -202,23 +226,9 @@ void UpdateClientByAccountNumber(vector<sClient> &Clients, string AccountNumber)
     {
         if (Client.AccountNumber == AccountNumber)
         {
-            char updateMore = 'Y';
-
-            do
-            {
-                system("clear");
-                PrintClientDetails(Client);
-                cout << "\nDo you want to update this client? (y/n) ";
-                cin >> updateMore;
-                cin.ignore();
-
-                if (toupper(updateMore) == 'Y')
-                {
-                    Client = ReadClient();
-                    cout << "\nClient Updated Successfully!\n";
-                }
-
-            } while (toupper(updateMore) == 'Y');
+            Client = ReadClient(Clients);
+            cout << "\nClient Updated Successfully!\n";
+            return;
         }
         cout << "\nClient Not Found!\n";
     }
@@ -309,9 +319,26 @@ float DepositClientBalance(vector<sClient> &Clients){
 float withdrawalBalance(vector<sClient> &Clients){
     float amount = ReadAmountBlance();
     for(sClient &Client : Clients){
-        if(Client.AccountBalance >= amount){
-            Client.AccountBalance -= amount;
-            cout << "Withdrawal successful. New balance: " << Client.AccountBalance << endl;
+        if(Client.AccountBalance > amount){
+            
+          char withdrawalMore = 'Y';
+          do{
+            system("clear");
+            PrintClientDetails(Client);
+            cout << "\nDo you want to withdrawal this client? (y/n) ";
+            cin >> withdrawalMore;
+            cin.ignore();
+
+            if (toupper(withdrawalMore) == 'Y')
+            {
+                Client.AccountBalance -= amount;
+                cout << "Withdrawal successful. New balance: " << Client.AccountBalance << endl;
+                return Client.AccountBalance;
+            }
+          }while(toupper(withdrawalMore) == 'Y');
+        }
+        else{
+            cout << "Withdrawal failed. Insufficient balance." << endl;
             return Client.AccountBalance;
         }
     }
@@ -429,7 +456,8 @@ void choiceTransactionMenuScreen(vector<sClient> &Clients){
 
         case 4:
             system("clear");
-            ShowMenuScreen();
+            ChoiceCaseMenuScreen(Clients);
+            BackToMainMenu();
             break;
         }
     }while(Choice != 4);
