@@ -16,6 +16,14 @@ struct sClient
     bool MarkForDelete = false;
 };
 
+
+
+
+
+
+
+
+
 // string ConvertRecordToLine(sClient Client, string Seperator =
 //                                                "#//#")
 // {
@@ -260,6 +268,15 @@ void TransactionMenuScreen()
     cout << "\t[3] Total.\n";
     cout << "\t[4] Back to Main Menu.\n";
     cout << "===========================================\n";
+}
+
+
+void LoginMenuScreen()
+{
+    cout << "===========================================\n";
+    cout << "\t\tLogin Menu Screen\n";
+    cout << "===========================================\n";
+   
 }
 
 
