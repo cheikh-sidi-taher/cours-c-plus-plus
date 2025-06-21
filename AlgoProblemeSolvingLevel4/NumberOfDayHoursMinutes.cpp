@@ -7,6 +7,17 @@ bool isLeapYear(short Year)
     // then it is a leap year
     return (Year % 4 == 0 && Year % 100 != 0) || (Year % 400 == 0);
 }
+
+short ReadMonth(){
+    short Month;
+    cout << "\nPlease enter a Month? ";
+    cin >> Month;
+    return Month;
+}
+
+short NumberOfDaysInAMonth(short Month){
+   return isLeapYear(Month) ? 28 : 29;
+}
 short NumberOfDaysInAYear(short Year)
 {
     return isLeapYear(Year) ? 366 : 365;
@@ -34,14 +45,17 @@ short ReadYear()
 int main()
 {
     short Year = ReadYear();
-    cout << "\nNumber of Days in Year [" << Year << "] is "
-         << NumberOfDaysInAYear(Year);
-    cout << "\nNumber of Hours in Year [" << Year << "] is "
-         << NumberOfHoursInAYear(Year);
-    cout << "\nNumber of Minutes in Year [" << Year << "] is "
-         << NumberOfMinutesInAYear(Year);
-    cout << "\nNumber of Seconds in Year [" << Year << "] is "
-         << NumberOfSecondsInAYear(Year);
-    system("pause>0");
-    return 0;
+
+    short Month = ReadMonth();
+    cout << NumberOfDaysInAMonth(Month) << endl;
+    // cout << "\nNumber of Days in Year [" << Year << "] is "
+    //      << NumberOfDaysInAYear(Year);
+    // cout << "\nNumber of Hours in Year [" << Year << "] is "
+    //      << NumberOfHoursInAYear(Year);
+    // cout << "\nNumber of Minutes in Year [" << Year << "] is "
+    //      << NumberOfMinutesInAYear(Year);
+    // cout << "\nNumber of Seconds in Year [" << Year << "] is "
+    //      << NumberOfSecondsInAYear(Year);
+    // system("pause>0");
+    // return 0;
 }
