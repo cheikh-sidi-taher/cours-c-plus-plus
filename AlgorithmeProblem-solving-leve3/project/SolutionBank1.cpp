@@ -196,6 +196,8 @@ void BackToMainMenu()
 void deleterdClientByAccountNumbe(vector<sClient> &Clients, string AccountNumber)
 {
     TitleSreens("Delete Client");
+    do{
+        
     AccountNumber = ReadAccountNumber();
     for (sClient &Client : Clients)
     {
@@ -217,8 +219,10 @@ void deleterdClientByAccountNumbe(vector<sClient> &Clients, string AccountNumber
             }
            }while(toupper(DeleteMore) == 'Y');
            }
-            cout << "\nClient Not Found!\n";
+        
         }
+        cout << "\nClient Not Found!\n";
+    }while(true);
 
        
     }
@@ -245,8 +249,9 @@ void UpdateClientByAccountNumber(vector<sClient> &Clients, string AccountNumber)
 void FindClientByAccountNumber(vector<sClient> &Clients, string AccountNumber)
 {
     TitleSreens("Find Client");
+    do{
     AccountNumber = ReadAccountNumber();
-    for (const sClient &Client : Clients)
+    for (sClient &Client : Clients)
     {
         if (Client.AccountNumber == AccountNumber)
         {
@@ -254,8 +259,11 @@ void FindClientByAccountNumber(vector<sClient> &Clients, string AccountNumber)
             return;
         }
     }
-    cout << "Client Not Found!\n";
-}
+    cout << "\nClient Not Found!\n";
+    }while(true);
+    }
+    
+
 
 
 void TransactionMenuScreen()
