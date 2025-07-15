@@ -1,69 +1,150 @@
 #include <iostream>
 using namespace std;
 
-short ReadYear()
-{
-    short Year;
-    cout << "\nPlease enter a year to check? ";
-    cin >> Year;
-    return Year;
-}
 
-short ReadMonth()
-{
-    short Month;
-    cout << "\nPlease enter a month to check? ";
-    cin >> Month;
-    return Month;
-}
 
-short ReadDay()
+string  
+NumberToText(
+    int
+        Number)
 {
-    short Day;
-    cout << "\nPlease enter a day to check? ";
-    cin >> Day;
-    return Day;
-}
+    if (
+        Number == 0)
+    {
+        return "";
+    }
+    if (
+        Number >= 1 &&
+        Number <= 19)
+    {
+        string
+            arr[] = {
+                "",
+                "One",
+                "Two",
+                "Three",
+                "Four",
+                "Five",
+                "Six",
+                "Seven",
+                "Eight",
+                "Nine",
+                "Ten",
+                "Eleven",
+                "Twelve",
+                "Thirteen",
+                "Fourteen",
+                "Fifteen",
+                "Sixteen",
+                "Seventeen",
+                "Eighteen",
+                "Nineteen"};
+        return arr[Number] +
+               " ";
+    }
+    if (
+        Number >= 20 &&
+        Number <= 99)
+    {
+        string
+            arr[] = {
+                "",
+                "",
+                "Twenty",
+                "Thirty",
+                "Forty",
+                "Fifty",
+                "Sixty",
+                "Seventy",
+                "Eighty",
+                "Ninety"};
+        return arr[Number / 10] +
+               " " + NumberToText(Number % 10);
+    }
+    if (
+        Number >= 100 &&
+        Number <= 199)
+    {
+        return "One Hundred " + NumberToText(
+                                    Number % 100);
+    }
+    if (
+        Number >= 200 &&
+        Number <= 999)
+    {
+        return NumberToText(
+                   Number / 100) +
+               "Hundreds " +
+               NumberToText(
+                   Number % 100);
+    }
+    if (
+        Number >= 1000 &&
+        Number <= 1999)
+    {
+        return "One Thousand " + NumberToText(
+                                     Number % 1000);
+    }
 
-short DayOfWeekOrder(
-    short
-        Day,
-    short
-        Month,
-    short
-        Year)
-{
-    short
-        a,
-        y, m;
-    a = (14 -
-         Month) /
-        12;
-    y =
-        Year - a;
-    m =
-        Month + (12 * a) - 2;
-    // Gregorian:
-    // 0:sun, 1:Mon, 2:Tue...etc
-    return (
-               Day + y + (y / 4) - (y / 100) + (y / 400) + ((31 * m) / 12)) %
-           7;
+    if (
+        Number >= 2000 &&
+        Number <= 999999)
+    {
+        return NumberToText(
+                   Number / 1000) +
+               "Thousands " +
+               NumberToText(
+                   Number % 1000);
+    }
+    if (
+        Number >= 1000000 &&
+        Number <= 1999999)
+    {
+        return "One Million " + NumberToText(
+                                    Number % 1000000);
+    }
+    if (
+        Number >= 2000000 &&
+        Number <= 999999999)
+    {
+        return NumberToText(
+                   Number / 1000000) +
+               "Millions " +
+               NumberToText(
+                   Number % 1000000);
+    }
+    if (
+        Number >= 1000000000 &&
+        Number <= 1999999999)
+    {
+        return "One Billion " + NumberToText(
+                                    Number %
+                                    1000000000);
+    }
+    else
+    {
+        return NumberToText(
+                   Number / 1000000000) +
+               "Billions " +
+               NumberToText(
+                   Number % 1000000000);
+    }
 }
-
-string NameOfDyes(short Day)
+int ReadNumber()
 {
-    string Days[7] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
-    return Days[Day];
+    int
+        Number;
+    cout << "\nEnter a Number? ";
+    cin >> Number;
+    return Number;
 }
 
 int main()
 {
-    short Year = ReadYear();
-    short Month = ReadMonth();
-    short Day = ReadDay();
-    cout << Day << "/ " << Month << " /" << Year << endl;
-    cout << "Day of order : " << DayOfWeekOrder(Day, Month, Year) << endl;
-    cout << "Day of name : " << NameOfDyes(DayOfWeekOrder(Day, Month, Year)) << endl;
-    system("pause>0");
+    int
+        Number = ReadNumber();
+    cout << NumberToText(Number);
+    system(
+        "pause>0");
     return 0;
 }

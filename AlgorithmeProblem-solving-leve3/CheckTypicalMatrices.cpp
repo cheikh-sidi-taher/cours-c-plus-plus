@@ -40,7 +40,7 @@ bool ChekkTypicalMatrices(int Matrix1[3][3], int Matrix2[3][3], short Rows, shor
                 return false;
         }
     }
-    return true;
+    return true;arr[3][3]
 }
 int main()
 {

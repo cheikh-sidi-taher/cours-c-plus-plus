@@ -45,6 +45,7 @@ struct sClient
 //         MyFile.close();
 //     }
 // }
+
 void ChoiceCaseMenuScreen(vector<sClient> &Clients);
 void TitleSreens(string title)
 {
