@@ -1,35 +1,29 @@
-// #ifndef USERS_H
-// #define USERS_H
-// #include <string>
-// using namespace std;
+#ifndef USERS_H
+#define USERS_H
 
-// struct stUser
-// {
-//     string UserName;
-//     string Password;
-//     bool permission = false;
-// };
-// void ShowManaerUserMenuScreen(){
-//     cout << "===========================================\n";
-//     cout << "\t\tManger Users Menu Screen\n";
-//     cout << "===========================================\n";
-//     cout << "\t[1] Add New User.\n";
-//     cout << "\t[2] Delete User.\n";
-//     cout << "\t[3] Update User.\n";
-//     cout << "\t[4] Find User.\n";
-//     cout << "\t[5] Back to Main Menu.\n";
-//     cout << "===========================================\n";
-// }
-// // Déclarations (prototypes seulement)
-// stUser ReadNewUser();
-// string ConvertRecordToLine(stUser User, string Seperator = "#//#");
-// void AddDataLineToFile(string FileName, string stDataLine);
-// void AddNewUser();
-// void AddUsers();
+#include <string>
+#include <vector>
+using namespace std;
 
+struct stUser {
+    string UserName;
+    string Password;
+    int Permission;
+};
 
+vector<stUser> LoadUsersFromFile(string FileName);
+bool isUserExist(string UserName);
+stUser ReadNewUser();
+string ConvertRecordToLine(stUser User, string Seperator);
+void AddDataLineToFile(string FileName, string stDataLine);
+void AddNewUser();
+void AddUsers();
+void PrintUsertRecord(stUser User);
+void SowAllUsersList(vector<stUser> vUsers);
+void getAllUsers();
+bool CheckLogin(const string &UserName, const string &Password);
+void ShowManaerUserMenuScreen();
+void choiceCaseManagerMenuScreen(vector<stUser> &Users);
 
-// // Nom du fichier global (si utilisé)
-// extern const string UsersFileName;
-
-// #endif // USERS_H
+void BackToMainMenu();
+#endif
