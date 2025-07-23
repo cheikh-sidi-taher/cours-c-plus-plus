@@ -5,6 +5,7 @@
 #include <limits> 
 using namespace std;
 const string ClientsFileName = "Clients.txt";
+const string UsersFileName = "users.txt";
 struct sClient
 {
     string AccountNumber;
