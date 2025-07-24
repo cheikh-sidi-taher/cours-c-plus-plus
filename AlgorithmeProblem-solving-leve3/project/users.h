@@ -24,6 +24,8 @@ void getAllUsers();
 bool CheckLogin(const string &UserName, const string &Password);
 void ShowManaerUserMenuScreen();
 void choiceCaseManagerMenuScreen(vector<stUser> &Users);
-
+void loginMenuScreen();
 void BackToMainMenu();
+// Nouveau prototype pour exporter PDF
+void ExportUsersToPDF();
 #endif

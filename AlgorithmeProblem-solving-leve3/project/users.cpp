@@ -3,6 +3,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <cstdlib> 
 #include "users.h"
 #include "clients.h"
 
@@ -47,6 +48,110 @@ vector<stUser> LoadUsersFromFile(string FileName)
     }
     return Users;
 }
+
+void ExportUsersToHTML(const vector<stUser>& users, const string& htmlFileName)
+{
+    ofstream file(htmlFileName);
+    if (!file.is_open())
+    {
+        cout << "Failed to open file for writing: " << htmlFileName << endl;
+        return;
+    }
+
+    file << "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n";
+    file << "<title>Users List</title>\n";
+    file << "<style>\n";
+    file << "table { border-collapse: collapse; width: 100%; }\n";
+    file << "th, td { border: 1px solid black; padding: 8px; text-align: left; }\n";
+    file << "th { background-color: #0d160dff; color: white; }\n";
+    file << "</style>\n</head>\n<body>\n";
+    file << "<h2>Users List (" << users.size() << " users)</h2>\n";
+    file << "<table>\n";
+    file << "<tr><th>User Name</th><th>Password</th><th>Permissions</th></tr>\n";
+
+    for (const auto& user : users)
+    {
+        file << "<tr>";
+        file << "<td>" << user.UserName << "</td>";
+        file << "<td>" << user.Password << "</td>";
+        string permText = (user.Permission == -1) ? "Full Access" : "Limited Access";
+        file << "<td>" << permText << "</td>";
+        file << "</tr>\n";
+    }
+
+    file << "</table>\n</body>\n</html>";
+    file.close();
+
+}
+
+string GenerateUserRowsHTML(const vector<stUser>& users)
+{
+    stringstream ss;
+    for (const auto& user : users)
+    {
+        ss << "<tr>";
+        ss << "<td>" << user.UserName << "</td>";
+        ss << "<td>" << user.Password << "</td>";
+        string permText = (user.Permission == -1) ? "Full Access" : "Limited Access";
+        ss << "<td>" << permText << "</td>";
+        ss << "</tr>\n";
+    }
+    return ss.str();
+}
+// --- Fonction pour exporter la liste des utilisateurs en PDF ---
+void ExportUsersToPDF()
+{
+    vector<stUser> users = LoadUsersFromFile(UsersFileName);
+    if (users.empty())
+    {
+        cout << "No users to export!\n";
+        return;
+    }
+
+    // Lire le template HTML
+    ifstream templateFile("template.html");
+    if (!templateFile.is_open())
+    {
+        cout << "Error: Cannot open template.html\n";
+        return;
+    }
+
+    stringstream buffer;
+    buffer << templateFile.rdbuf();
+    string htmlContent = buffer.str();
+    templateFile.close();
+
+    // Remplacer les placeholders
+    string userRows = GenerateUserRowsHTML(users);
+    size_t pos;
+
+    pos = htmlContent.find("{{USERS_ROWS}}");
+    if (pos != string::npos)
+        htmlContent.replace(pos, 14, userRows);
+
+    pos = htmlContent.find("{{USERS_COUNT}}");
+    if (pos != string::npos)
+        htmlContent.replace(pos, 15, to_string(users.size()));
+
+    // Sauvegarder le HTML temporaire
+    string htmlFile = "temp_users.html";
+    ofstream outFile(htmlFile);
+    outFile << htmlContent;
+    outFile.close();
+
+    // Générer le PDF
+    string command = "wkhtmltopdf " + htmlFile + " users.pdf";
+    int result = system(command.c_str());
+
+    // Nettoyage
+    remove(htmlFile.c_str());
+
+    if (result == 0)
+        cout << "PDF file generated successfully: users.pdf\n";
+    else
+        cout << "Failed to generate PDF. Make sure wkhtmltopdf is installed.\n";
+}
+
 
 bool isUserExist(string UserName)
 {
@@ -157,6 +262,7 @@ void SowAllUsersList(vector<stUser> vUsers)
 }
 
 
+
 void getAllUsers()
 {
     vector<stUser> Users = LoadUsersFromFile(UsersFileName);
@@ -191,15 +297,16 @@ bool CheckLogin(const string &UserName, const string &Password)
 void ShowManaerUserMenuScreen()
 {
     cout << "===========================================\n";
-    cout << "\t\tManger Users Menu Screen\n";
+    cout << "\t\tManage Users Menu Screen\n";
     cout << "===========================================\n";
 
-    cout << "\t[1] getAll User.\n";
+    cout << "\t[1] Get All Users.\n";
     cout << "\t[2] Add New User.\n";
     cout << "\t[3] Update User.\n";
     cout << "\t[4] Delete User.\n";
-    cout << "\t[4] Find User.\n";
-    cout << "\t[5] Exit.\n";
+    cout << "\t[5] Find User.\n";
+    cout << "\t[6] Export Users List to PDF.\n"; // Nouvelle option
+    cout << "\t[7] Exit.\n";
 
     cout << "===========================================\n";
 }
@@ -210,41 +317,81 @@ void choiceCaseManagerMenuScreen(vector<stUser> &Users)
     do
     {
         ShowManaerUserMenuScreen();
-        cout << "Choose what do you want to do? [1 to 5]? ";
+        cout << "Choose what do you want to do? [1 to 7]? ";
         cin >> choice;
-        cin.ignore(); // Clear the input buffer
+        cin.ignore();
 
         switch (choice)
         {
-        case 1:
-            system("clear");
-            getAllUsers();
-            BackToMainMenu();
-            break;
-
-        case 2:
-            system("clear");
-            AddUsers();
-            BackToMainMenu();
-            break;
-
-        case 3:
-            system("clear");
-           cout << "delete User\n";
-            BackToMainMenu();
-            break;
-
-        case 4:
-            system("clear");
-            cout << "update User\n";
-            BackToMainMenu();
-            break;
-
-        case 5:
-            system("clear");
-            cout << "find User\n";
-            BackToMainMenu();
-            break;
+            case 1:
+                system("clear");
+                getAllUsers();
+                BackToMainMenu();
+                break;
+            case 2:
+                system("clear");
+                AddUsers();
+                BackToMainMenu();
+                break;
+            case 3:
+                system("clear");
+                cout << "Update User - Not implemented yet\n";
+                BackToMainMenu();
+                break;
+            case 4:
+                system("clear");
+                cout << "Delete User - Not implemented yet\n";
+                BackToMainMenu();
+                break;
+            case 5:
+                system("clear");
+                cout << "Find User - Not implemented yet\n";
+                BackToMainMenu();
+                break;
+            case 6:
+                system("clear");
+                ExportUsersToPDF();
+                BackToMainMenu();
+                break;
+            case 7:
+                system("clear");
+                cout << "Exiting User Manager...\n";
+                break;
+            default:
+                cout << "Invalid choice, try again.\n";
+                break;
         }
-    } while (choice != 5);
+    } while (choice != 7);
 }
+
+
+void loginMenuScreen()
+{
+    vector<sClient> Clients;
+    stUser User;
+
+    do
+    {
+        cout << "===========================================\n";
+        cout << "\t\tLogin Menu Screen\n";
+        cout << "===========================================\n";
+        cout << "Please enter User Name:\n";
+        cin >> User.UserName;
+        cout << "Please enter Password:\n";
+        cin >> User.Password;
+
+        if (CheckLogin(User.UserName, User.Password))
+        {
+            ChoiceCaseMenuScreen(Clients);
+            break; // Quitte la boucle après connexion réussie
+        }
+        else
+        {
+            cout << "Invalid User Name or Password! Please try again.\n";
+        }
+
+    } while (true);
+}
+
+
+
