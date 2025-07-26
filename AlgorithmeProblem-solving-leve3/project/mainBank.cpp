@@ -6,6 +6,6 @@
 using namespace std;
 
 int main() {
-    loginMenuScreen(); // Lancement de l'écran de login
+    loginMenuScreen(); // Affiche le menu de connexion
     return 0;
 }

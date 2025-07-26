@@ -11,7 +11,12 @@ using namespace std;
 
 const string UsersFileName = "users.txt";
 
-
+string  ReadUserName(){
+    string UserName;
+    cout << "Enter your username: ";
+    cin >> UserName;
+    return UserName;
+}
 vector<stUser> LoadUsersFromFile(string FileName)
 {
     vector<stUser> Users;
@@ -48,7 +53,7 @@ vector<stUser> LoadUsersFromFile(string FileName)
     }
     return Users;
 }
-
+// --- Fonction pour exporter la liste des utilisateurs en HTML ---
 void ExportUsersToHTML(const vector<stUser>& users, const string& htmlFileName)
 {
     ofstream file(htmlFileName);
@@ -83,7 +88,6 @@ void ExportUsersToHTML(const vector<stUser>& users, const string& htmlFileName)
     file.close();
 
 }
-
 string GenerateUserRowsHTML(const vector<stUser>& users)
 {
     stringstream ss;
@@ -278,6 +282,105 @@ void getAllUsers()
 }
 
 
+void PrintUserDetails(stUser User){
+    cout << "\n\t\t\t\t\tUser Details" << endl;
+    cout << "_________________________________________\n"
+         << endl;
+    cout << "| " << left << setw(15) << "User Name";
+    cout << "| " << left << setw(10) << "Password";
+    cout << "| " << left << setw(40) << "Permissions";
+    cout << "\n_______________________________________________________";
+    cout << "_________________________________________\n"
+         << endl;
+    PrintUsertRecord(User);
+    cout << "\n_______________________________________________________";
+    cout << "_________________________________________\n"
+         << endl;
+}
+
+void FindUserByUserName(string UserName)
+{
+    TitleSreens("Find User");
+    UserName = ReadUserName();
+    do{
+        vector<stUser> Users = LoadUsersFromFile(UsersFileName);
+        for (stUser User : Users)
+        {
+            if (User.UserName == UserName)
+            {
+                PrintUserDetails(User);
+                return;
+            }
+        }
+        cout << "User not found! Please try again.\n";
+        UserName = ReadUserName();
+    }while(true);
+  
+}
+
+
+
+void SaveUsersToFile(string FileName, vector<stUser> Users){
+    fstream MyFile;
+    MyFile.open(FileName, ios::out);
+    if (MyFile.is_open())
+    {
+        for (const stUser& u : Users)
+        {
+            MyFile << ConvertRecordToLine(u, "#//#") << endl;
+        }
+        MyFile.close();
+
+    }
+}
+void UpdateUserByUserName(string UserName){
+    TitleSreens("Update User");
+    UserName = ReadUserName();
+    do{
+        vector<stUser> Users = LoadUsersFromFile(UsersFileName);
+        for (stUser &User : Users)
+        {
+            if (User.UserName == UserName)
+            {
+            PrintUserDetails(User);
+            cout << "\n\nEnter new details for this user:\n";
+            stUser NewUser = ReadNewUser();
+            User = NewUser;
+
+            SaveUsersToFile(UsersFileName, Users);
+            cout << "User updated successfully!\n";
+            return;
+            }
+        }
+        cout << "User not found! Please try again.\n";
+        UserName = ReadUserName();
+        BackToMainMenu();
+        
+    }while(true);
+}
+
+
+void DeleteUserByUserName(string UserName){
+    TitleSreens("Delete User");
+    UserName = ReadUserName();
+    do{
+        vector<stUser> Users = LoadUsersFromFile(UsersFileName);
+        for (stUser &User : Users)
+        {
+            if (User.UserName == UserName)
+            {
+                PrintUserDetails(User);
+                cout << "\n\nAre you sure you want to delete this user ? (y/n)\n";
+            }
+        }
+        cout << "User not found! Please try again.\n";
+        UserName = ReadUserName();
+    }while(true);
+}
+
+
+
+
 bool CheckLogin(const string &UserName, const string &Password)
 {
     vector<stUser> Users = LoadUsersFromFile(UsersFileName);
@@ -314,6 +417,7 @@ void ShowManaerUserMenuScreen()
 void choiceCaseManagerMenuScreen(vector<stUser> &Users)
 {
     short choice;
+    string UserName;
     do
     {
         ShowManaerUserMenuScreen();
@@ -335,17 +439,17 @@ void choiceCaseManagerMenuScreen(vector<stUser> &Users)
                 break;
             case 3:
                 system("clear");
-                cout << "Update User - Not implemented yet\n";
+                UpdateUserByUserName(UserName);
                 BackToMainMenu();
                 break;
             case 4:
                 system("clear");
-                cout << "Delete User - Not implemented yet\n";
+                DeleteUserByUserName(UserName);
                 BackToMainMenu();
                 break;
             case 5:
                 system("clear");
-                cout << "Find User - Not implemented yet\n";
+                FindUserByUserName(UserName);
                 BackToMainMenu();
                 break;
             case 6:

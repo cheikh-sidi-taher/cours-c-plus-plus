@@ -71,6 +71,7 @@ string ReadAccountNumber()
     return AccountNumber;
 }
 
+
 void AddNewClient(vector<sClient> &Clients)
 {
     sClient Client;
