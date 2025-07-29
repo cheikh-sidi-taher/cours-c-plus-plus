@@ -459,7 +459,7 @@ void choiceCaseManagerMenuScreen(vector<stUser> &Users)
                 break;
             case 7:
                 system("clear");
-                cout << "Exiting User Manager...\n";
+                BackToMainMenu();
                 break;
             default:
                 cout << "Invalid choice, try again.\n";
@@ -486,7 +486,7 @@ void loginMenuScreen()
 
         if (CheckLogin(User.UserName, User.Password))
         {
-            ChoiceCaseMenuScreen(Clients);
+           choiceCaseClientMenuScreen(Clients);
             break; // Quitte la boucle après connexion réussie
         }
         else
